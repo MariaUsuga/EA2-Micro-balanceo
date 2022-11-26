@@ -1,0 +1,35 @@
+version: "3.7"
+services: 
+ asesoria-academica-micro01:
+  container_name: asesoria-academica-micro01
+  image: mariaarenas/asesoria-academica-micro:1.0.2
+  ports:
+   - "6012:4000"
+  networks:
+   - ase-acad
+  environment:
+   HOST: asesoria-academica-micro01
+ asesoria-academica-micro02:
+  container_name: asesoria-academica-micro02
+  image: mariaarenas/asesoria-academica-micro:1.0.2
+  ports:
+   - "6013:4000"     
+  networks:
+   - ase-acad
+  environment:
+   HOST: asesoria-academica-micro02   
+ load-balancer:
+  container_name: load-balancer
+  image: mariaarenas/asesoria-academica-micro-load-balancer:1.0.0
+  build:
+   context: ./load-balancer
+  ports:
+   - "8082:80"
+  networks:
+   - ase-acad
+  depends_on:
+   - asesoria-academica-micro01  
+   - asesoria-academica-micro02
+  restart: always   
+networks:
+ ase-acad:
