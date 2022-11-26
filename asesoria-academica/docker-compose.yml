@@ -1,0 +1,25 @@
+version: "3.7"
+services: 
+ ase-database:
+  container_name: ase-database
+  image: mongo:latest
+  volumes:
+   - mongo-database://data/databases
+  ports:
+   - 27017:27017
+  networks:
+   - ase-acad
+
+ asesoria-academica:
+  container_name: asesoria-academica
+  image: mariaarenas/asesoria-academica:1.0.2
+  ports:
+   - "4001:4001"
+  networks:
+   - ase-acad
+  restart: always
+
+volumes:
+  mongo-database:
+networks:
+  ase-acad:
